@@ -89,7 +89,7 @@ make test
 
 ```
 
-## Execute linting com flake8
+## Executando linting com flake8
 
 Processo de análise de código-fonte para identificar se está de acordo com o guia de estilo da PEP8. Isso ajudará a garantir que o código esteja seguindo as boas práticas e tenha uma cobertura de testes adequada.
 
@@ -98,6 +98,7 @@ Processo de análise de código-fonte para identificar se está de acordo com o 
 flake8 app/ tests/
 
 ```
+
 Ou usando o makefile:
 
 ```
@@ -105,3 +106,22 @@ make lint
 
 ```
 
+## Executando formatação automática 
+
+Este processo formata os códigos-fonte seguindo o guia de estilos da PEP8:
+
+```
+black app/ tests/
+
+```
+
+Ou usando o makefile:
+
+```
+make format
+
+```
+
+## Licença
+
+Este projeto está licenciado sob a MIT License.
