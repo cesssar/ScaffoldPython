@@ -1,0 +1,2 @@
+EXTERNAL_API_URL=https://viacep.com.br/ws
+DATABASE_URL=mssql+pyodbc://usuario:senha@servidor:porta/bancodados?driver=ODBC+Driver+17+for+SQL+Server
