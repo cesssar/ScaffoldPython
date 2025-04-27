@@ -36,6 +36,7 @@ scaffold/
 - Python 3.11 (testado nesta versão)
 - SQL Server como banco de dados
 - Dependências: pyodbc, sqlalchemy, pytest, flake8, black, etc.
+- Driver ODBC Driver 17 for SQL Server para conexão com SQL Server em seu sistema operacional (exemplo Ubuntu instalar: sudo apt install msodbcsql17)
 
 ## Instalação
 
@@ -48,7 +49,7 @@ source venv/bin/activate  # No Windows, use `venv\Scripts\activate`
 
 ```
 
-3) Instalar as dependẽncias do projeto
+3) Instalar as dependências do projeto
 
 ```
 pip install -r requirements.txt
