@@ -125,6 +125,18 @@ make format
 
 ```
 
+## Utilizando coverage (cobertura de testes)
+
+Executar a análise e a geração do relatório em XML. Este relatório será exportado para o SonarQube nas próximas etapas para ser visualizado no painel web.
+
+```
+coverage run -m pytest
+coverage xml
+
+
+```
+
+
 ## Utilizando SonarQube para analisar o projeto localmente
 
 - Instalar e subir o SonarQube via Docker:
@@ -169,10 +181,10 @@ export PATH=$PATH:/opt/sonar-scanner/bin
 
 - Configurar o arquivo sonar-project.properties na raiz do projeto com o token gerado e o nome dado ao projeto no SonarQube.
 
-- Rodar a análise via terminal:
+- Rodar a análise via terminal (passando o token gerado no painel web)
 
 ```
-sonar-scanner
+sonar-scanner -Dsonar.login=sqp_ee0cf8f05674e0ed4f26fad2a5a544eb5d24439d
 
 ```
 
