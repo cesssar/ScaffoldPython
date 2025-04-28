@@ -24,7 +24,8 @@ def consulta_cep(cep: str) -> CEP:
         # Cria um novo objeto CEP no banco de dados
         new_cep = cep_repository.create_cep(db_session,cep_data)
         return new_cep
-    except:
+    except Exception as e:
+        print(f"Erro ao consultar o CEP: {e}")
         return CEP()
     finally:
         db_session.close()

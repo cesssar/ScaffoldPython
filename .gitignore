@@ -10,6 +10,7 @@ tests/__pycache__/
 tests/models/__pycache__/
 tests/repositories/__pycache__/
 tests/services/__pycache__/
+.scannerwork/
 venv/
 *.pyc
 *.pyo

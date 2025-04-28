@@ -1,6 +1,8 @@
 # Scaffold Python com SQLAlchemy, Pydantic e SQL Server
 
-Este repositório é um scaffold para um projeto Python utilizando SQLAlchemy para ORM, Pydantic para validações e configurações, e integração com SQL Server como banco de dados. Além disso, inclui configurações para testes automatizados e linting com pytest e flake8. Esta aplicação exemplo consulta uma API de CEP pública e salva os dados no banco de dados SQL Server.
+Este repositório é um scaffold para um projeto Python utilizando SQLAlchemy para ORM, Pydantic para validações e configurações, e integração com SQL Server como banco de dados. Além disso, inclui configurações para testes automatizados e linting com pytest e flake8. Também tem instruções de como utilizar o SonarQube via Docker para analisar a qualidade do código produzido.
+
+Esta aplicação exemplo consulta uma API de CEP pública e salva os dados no banco de dados SQL Server.
 
 ## Estrutura do projeto
 
@@ -122,6 +124,66 @@ Ou usando o makefile:
 make format
 
 ```
+
+## Utilizando SonarQube para analisar o projeto localmente
+
+- Instalar e subir o SonarQube via Docker:
+
+```
+docker run -d --name sonarqube -p 9001:9000 sonarqube:latest
+
+```
+
+Depois acessar http://localhost:9001 com usuário e senha admin (ele irá pedir para trocar a senha no primeiro acesso).
+
+- Criar um Projeto no SonarQube:
+
+Entra no painel SonarQube.
+Clica em "Create Project".
+Dá um nome para o seu projeto (ex: meu-projeto-python).
+Vai gerar um Token de autenticação — guarda esse token, vamos usar depois. Ou ir em My Acount e gerar o token.
+
+- Instalar o SonarScanner:
+
+O SonarScanner é o agente que lê o seu código e manda os dados para o SonarQube.
+
+Para Windows acessar https://docs.sonarsource.com/sonarqube-server/latest/analyzing-source-code/scanners/sonarscanner/
+
+Instala via terminal (Ubuntu/Debian):
+
+```
+sudo apt-get install unzip
+curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+unzip sonar-scanner.zip
+sudo mv sonar-scanner-*/ /opt/sonar-scanner
+
+
+```
+
+Depois adiciona ao seu PATH:
+
+```
+export PATH=$PATH:/opt/sonar-scanner/bin
+
+```
+
+- Configurar o arquivo sonar-project.properties na raiz do projeto com o token gerado e o nome dado ao projeto no SonarQube.
+
+- Rodar a análise via terminal:
+
+```
+sonar-scanner
+
+```
+
+Ele vai:
+- Analisar o código Python.
+- Detectar bugs, code smells, vulnerabilidades.
+- Subir o relatório para o SonarQube.
+
+
+Acessar o painel web para visualizar o resultado.
+
 
 ## Licença
 
