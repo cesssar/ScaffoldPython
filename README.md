@@ -1,6 +1,6 @@
 # Scaffold Python com SQLAlchemy, Pydantic e SQL Server
 
-Este repositório é um scaffold para um projeto Python utilizando SQLAlchemy para ORM, Pydantic para validações e configurações, e integração com SQL Server como banco de dados. Além disso, inclui configurações para testes automatizados e linting com pytest e flake8. Também tem instruções de como utilizar o SonarQube via Docker para analisar a qualidade do código produzido.
+Este repositório é um scaffold para um projeto Python utilizando SQLAlchemy para ORM, Pydantic para validações e configurações, e integração com SQL Server como banco de dados. Além disso, inclui configurações para testes automatizados e linting com pytest e flake8. Também tem instruções de como utilizar o Coverabe e o SonarQube (via Docker) para analisar a qualidade do código produzido.
 
 Esta aplicação exemplo consulta uma API de CEP pública e salva os dados no banco de dados SQL Server.
 
@@ -195,6 +195,8 @@ Ele vai:
 
 
 Acessar o painel web para visualizar o resultado.
+
+![Painel SonarQube](https://github.com/cesssar/ScaffoldPython/blob/main/sonarqube.png)
 
 
 ## Licença
