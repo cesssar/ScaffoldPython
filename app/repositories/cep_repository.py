@@ -8,14 +8,12 @@ logger = logging.getLogger(__name__)
 
 class CEPRepository:
 
-
     @staticmethod
     def get_cep(db: Session, cep: str):
         try:
             return db.query(CEP).filter(CEP.cep == cep).first()
         except Exception as e:
             logger.error(f'Erro ao recuperar dados do banco de dados: {e}')
-
 
     @staticmethod
     def create_cep(db: Session, cep_data: dict):

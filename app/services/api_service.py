@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 class APIService:
 
-
     @staticmethod
     def fetch_cep_data(cep: str) -> dict:
         try:
