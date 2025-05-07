@@ -2,10 +2,17 @@ from app.database import Base, engine, get_db
 from app.models.cep import CEP
 from app.repositories.cep_repository import CEPRepository
 from app.services.api_service import APIService
+from app.schemas.cep_schema import CEPSchema
+from app.config.logging_config import setup_logging
 from sqlalchemy.orm import Session
+
+
+setup_logging()
+
 
 def init_db():
     Base.metadata.create_all(bind=engine)
+
 
 def consulta_cep(cep: str) -> CEP:
     """
@@ -43,3 +50,9 @@ if __name__ == "__main__":
     print(f"Cidade: {resultado.localidade}")
     print(f"Estado: {resultado.uf}")
     print(f"IBGE: {resultado.ibge}")
+
+    if resultado:
+        print('\n')
+        print('Dados em formato JSON\n')
+        dados_dict = CEPSchema.model_validate(resultado).model_dump_json()
+        print(dados_dict)

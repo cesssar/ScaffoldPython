@@ -6,6 +6,7 @@ app/models/__pycache__/
 app/repositories/__pycache__/
 app/services/__pycache__/
 app/utils/__pycache__/
+app/schemas/__pycache__/
 tests/__pycache__/
 tests/models/__pycache__/
 tests/repositories/__pycache__/

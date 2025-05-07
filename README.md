@@ -1,6 +1,7 @@
 # Scaffold Python com SQLAlchemy, Pydantic e SQL Server
 
 Este repositório é um scaffold para um projeto Python utilizando SQLAlchemy para ORM, Pydantic para validações e configurações, e integração com SQL Server como banco de dados. Além disso, inclui configurações para testes automatizados e linting com pytest e flake8. Também tem instruções de como utilizar o Coverabe e o SonarQube (via Docker) para analisar a qualidade do código produzido.
+A aplicação utiliza método para log em arquivo já formatado para que seja lido pelo Elasticsearch.
 
 Esta aplicação exemplo consulta uma API de CEP pública e salva os dados no banco de dados SQL Server.
 
@@ -15,8 +16,7 @@ scaffold/
 │   ├── models/               # Modelos de dados (ex: CEP)
 │   ├── repositories/         # Repositórios para lógica de persistência
 │   ├── services/             # Lógica de negócios
-│   ├── utils/                # Métodos auxiliares para utilizar em toda a aplicação
-│   └── config.py             # Configurações do Pydantic
+│   └── utils/                # Métodos auxiliares para utilizar em toda a aplicação
 │
 ├── tests/                    # Testes unitários
 │   ├── models/               # Testes para as implementações dentro de models
@@ -139,7 +139,7 @@ coverage xml
 
 ## Utilizando SonarQube para analisar o projeto localmente
 
-- Instalar e subir o SonarQube via Docker:
+- Instalar e subir o SonarQube via Docker com o comando abaixo ou com o docker-compose.yaml incluso no projeto:
 
 ```
 docker run -d --name sonarqube -p 9001:9000 sonarqube:latest
