@@ -14,19 +14,18 @@ class CEPRepository(ICEPRepository):
         try:
             return db.query(CEP).filter(CEP.cep == cep).first()
         except Exception as e:
-            logger.error(f'Error retrieving CEP {cep} from database: {e}')
+            logger.error(f"Erro ao recuperar o CEP {cep} da base: {e}")
             return None
 
     def create_cep(self, db: Session, cep_data: dict) -> Optional[CEP]:
         try:
-            # Ensure 'id' is not in cep_data if it's auto-generated
-            cep_data.pop('id', None)
+            cep_data.pop("id", None)
             db_cep = CEP(**cep_data)
             db.add(db_cep)
             db.commit()
             db.refresh(db_cep)
             return db_cep
         except Exception as e:
-            logger.error(f'Error creating CEP in database with data {cep_data}: {e}')
-            db.rollback() # Rollback in case of error
+            logger.error(f"Erro ao gravar CEP na base {cep_data}: {e}")
+            db.rollback()
             return None

@@ -16,6 +16,4 @@ class CEPSchema(BaseModel):
     ddd: int
     siafi: int
 
-    model_config = {
-        'from_attributes': True
-    }
+    model_config = {"from_attributes": True}

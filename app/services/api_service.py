@@ -14,18 +14,18 @@ class APIService(ICEPAPIService):
         try:
             url = f"{settings.EXTERNAL_API_URL}/{cep}/json/"
             response = requests.get(url)
-            response.raise_for_status()  # Raise an exception for HTTP errors (4xx or 5xx)
+            response.raise_for_status()
             data = response.json()
-            if data.get("erro"):  # ViaCEP returns {"erro": true} for non-existent CEPs
-                logger.info(f"CEP {cep} not found in external API (ViaCEP).")
+            if data.get("erro"):
+                logger.info(f"CEP {cep} não encontrato na API (ViaCEP).")
                 return None
             return data
         except requests.exceptions.HTTPError as http_err:
-            logger.error(f'HTTP error occurred while fetching CEP {cep}: {http_err} - Response: {response.text}')
+            logger.error(f"Erro para o CEP {cep}: {http_err}: {response.text}")
             return None
         except requests.exceptions.RequestException as req_err:
-            logger.error(f'Request error occurred while fetching CEP {cep}: {req_err}')
+            logger.error(f"Erro de requisição para o CEP {cep}: {req_err}")
             return None
         except Exception as e:
-            logger.error(f'An unexpected error occurred while fetching CEP {cep}: {e}')
+            logger.error(f"Ocorreu um erro ao pesquisar o CEP {cep}: {e}")
             return None
