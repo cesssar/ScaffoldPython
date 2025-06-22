@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from sqlalchemy.orm import Session
 
 from app.services.cep_service import CEPService
@@ -113,7 +113,6 @@ def test_get_or_fetch_cep_not_in_db_found_in_api_and_created(
     mock_cep_repository.get_cep.return_value = None  # Not in DB
     mock_api_service.fetch_cep_data.return_value = sample_api_response_data
 
-    # Mock the created CEP model instance that repository.create_cep would return
     created_cep_model = CEP(
         **{
             k: v
@@ -129,7 +128,8 @@ def test_get_or_fetch_cep_not_in_db_found_in_api_and_created(
     mock_cep_repository.get_cep.assert_called_once_with(
         cep_service.db_session, sample_valid_cep_str
     )
-    mock_api_service.fetch_cep_data.assert_called_once_with(sample_valid_cep_str)
+    mock_api_service.fetch_cep_data.assert_called_once_with(
+        sample_valid_cep_str)
 
     # Prepare expected data for create_cep call (filtered, cep sanitized)
     expected_data_for_create = sample_api_response_data.copy()
@@ -161,7 +161,8 @@ def test_get_or_fetch_cep_not_in_db_not_in_api(
     mock_cep_repository.get_cep.assert_called_once_with(
         cep_service.db_session, sample_valid_cep_str
     )
-    mock_api_service.fetch_cep_data.assert_called_once_with(sample_valid_cep_str)
+    mock_api_service.fetch_cep_data.assert_called_once_with(
+        sample_valid_cep_str)
     mock_cep_repository.create_cep.assert_not_called()
 
 
@@ -182,7 +183,8 @@ def test_get_or_fetch_cep_api_returns_data_but_db_create_fails(
     mock_cep_repository.get_cep.assert_called_once_with(
         cep_service.db_session, sample_valid_cep_str
     )
-    mock_api_service.fetch_cep_data.assert_called_once_with(sample_valid_cep_str)
+    mock_api_service.fetch_cep_data.assert_called_once_with(
+        sample_valid_cep_str)
 
     expected_data_for_create = sample_api_response_data.copy()
     expected_data_for_create["cep"] = "".join(

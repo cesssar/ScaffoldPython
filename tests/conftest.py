@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 def db_engine():
     Base.metadata.create_all(bind=engine)
     yield engine
-    Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture(scope="function")
