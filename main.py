@@ -1,58 +1,81 @@
+import logging
 from app.database import Base, engine, get_db
-from app.models.cep import CEP
 from app.repositories.cep_repository import CEPRepository
 from app.services.api_service import APIService
+from app.services.cep_service import CEPService
 from app.schemas.cep_schema import CEPSchema
 from app.config.logging_config import setup_logging
 from sqlalchemy.orm import Session
 
-
+# Setup logging first
 setup_logging()
+logger = logging.getLogger(__name__)
 
 
 def init_db():
+    logger.info("Initializing database...")
     Base.metadata.create_all(bind=engine)
+    logger.info("Database initialized.")
 
 
-def consulta_cep(cep: str) -> CEP:
-    """
-    Função para consultar um CEP na API e guardar no banco de dados.
-    :param cep: O CEP a ser consultado.
-    :return: O objeto CEP correspondente ao CEP consultado.
-    """
-    db = get_db()
-    db_session: Session = next(db)
-    api = APIService()
+def main():
+    init_db()
+
+    db_generator = get_db()
+    db_session: Session = next(db_generator)
+
     try:
-        # Consulta o CEP na API
-        cep_data = api.fetch_cep_data(cep)
-        # Cria um repositório para o CEP
-        cep_repository = CEPRepository()
-        # Cria um novo objeto CEP no banco de dados
-        new_cep = cep_repository.create_cep(db_session,cep_data)
-        return new_cep
+        # Instantiate concrete implementations
+        api_service_instance = APIService()
+        cep_repository_instance = CEPRepository()
+
+        # Instantiate CEPService with dependencies
+        cep_service = CEPService(
+            db_session=db_session,
+            api_service=api_service_instance,
+            cep_repository=cep_repository_instance
+        )
+
+        cep_input = input("Digite o CEP para consulta: ")
+        logger.info(f"User input CEP: {cep_input}")
+
+        resultado_cep_model = cep_service.get_or_fetch_cep_details(cep_input)
+
+        if resultado_cep_model:
+            logger.info(f"CEP details found for {cep_input}: {resultado_cep_model.__dict__}")
+            print("\n--- Detalhes do CEP ---")
+            print(f"CEP: {resultado_cep_model.cep}")
+            print(f"Logradouro: {resultado_cep_model.logradouro}")
+            print(f"Complemento: {resultado_cep_model.complemento}")
+            print(f"Bairro: {resultado_cep_model.bairro}")
+            print(f"Localidade: {resultado_cep_model.localidade}")
+            print(f"UF: {resultado_cep_model.uf}")
+            print(f"IBGE: {resultado_cep_model.ibge}")
+            print(f"GIA: {resultado_cep_model.gia}")
+            print(f"DDD: {resultado_cep_model.ddd}")
+            print(f"SIAFI: {resultado_cep_model.siafi}")
+
+            print('\n--- Dados em formato JSON ---')
+            # Use the model instance directly for validation if its attributes match schema
+            # Or, if necessary, convert model to dict first, then validate
+            try:
+                cep_schema_validated = CEPSchema.model_validate(resultado_cep_model)
+                print(cep_schema_validated.model_dump_json(indent=2))
+            except Exception as e:
+                logger.error(f"Error validating/serializing CEP model to CEPSchema for {cep_input}: {e}")
+                print("Erro ao gerar JSON dos dados do CEP.")
+
+        else:
+            logger.warning(f"CEP {cep_input} não encontrado.")
+            print(f"CEP {cep_input} não encontrado ou inválido.")
+
     except Exception as e:
-        print(f"Erro ao consultar o CEP: {e}")
-        return CEP()
+        logger.exception(f"An unexpected error occurred in main execution: {e}")
+        print(f"Ocorreu um erro inesperado: {e}")
     finally:
+        logger.info("Closing database session.")
         db_session.close()
-        db.close()
 
 
 if __name__ == "__main__":
-    init_db()
-    cep = input("Digite o CEP para consulta: ")
-    resultado = consulta_cep(cep)
-     
-    print(f"CEP consultado: {resultado.cep}")
-    print(f"Logradouro: {resultado.logradouro}")
-    print(f"Bairro: {resultado.bairro}")
-    print(f"Cidade: {resultado.localidade}")
-    print(f"Estado: {resultado.uf}")
-    print(f"IBGE: {resultado.ibge}")
-
-    if resultado:
-        print('\n')
-        print('Dados em formato JSON\n')
-        dados_dict = CEPSchema.model_validate(resultado).model_dump_json()
-        print(dados_dict)
+    main()
