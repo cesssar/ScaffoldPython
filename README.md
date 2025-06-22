@@ -16,6 +16,7 @@ scaffold/
 │   ├── models/               # Modelos de dados (ex: CEP)
 │   ├── repositories/         # Lógica de persistência
 │   ├── services/             # Lógica de negócios
+│   ├── schemas/              # Classes para validações de dados
 │   └── utils/                # Métodos auxiliares
 ├── tests/                    # Testes unitários
 │   ├── models/
